@@ -2,8 +2,8 @@ const questionElement = document.getElementById("question");
 const optionsElement = document.getElementById("options");
 const scoreElement = document.getElementById("score");
 const nextBtn = document.getElementById("nextBtn");
-
 const resultElement = document.getElementById("result");
+
 let correctAnswer = "";
 let score = 0;
 let questionCount = 0;
@@ -17,7 +17,7 @@ async function loadQuestion() {
 
         optionsElement.innerHTML = "";
 
-        resultElement.innerHTML = `Final Score: ${score} / ${totalQuestions}`;
+        resultElement.innerHTML = `Final Score: ${score}/${totalQuestions}`;
 
         nextBtn.style.display = "none";
 
@@ -28,43 +28,66 @@ async function loadQuestion() {
 
     optionsElement.innerHTML = "";
 
-    resultElement.innerHTML = "";
+    resultElement.innerHTML = "Loading...";
 
-    const url = "https://opentdb.com/api.php?amount=1&category=19&type=multiple";
+    try{
 
-    const response = await fetch(url);
+        const url = "https://opentdb.com/api.php?amount=1&category=19&type=multiple";
 
-    const data = await response.json();
+        const response = await fetch(url);
 
-    const questionData = data.results[0];
+        const data = await response.json();
 
-    questionElement.innerHTML = questionData.question;
+        if(!data.results || data.results.length === 0){
 
-    correctAnswer = questionData.correct_answer;
+            questionElement.innerHTML = "Failed to load question";
 
-    let options = [...questionData.incorrect_answers];
+            return;
+        }
 
-    options.push(correctAnswer);
+        const questionData = data.results[0];
 
-    options.sort(() => Math.random() - 0.5);
+        questionElement.innerHTML = questionData.question;
 
-    options.forEach(option => {
+        correctAnswer = questionData.correct_answer;
 
-        const button = document.createElement("button");
+        let options = [...questionData.incorrect_answers];
 
-        button.innerHTML = option;
+        options.push(correctAnswer);
 
-        button.classList.add("option-btn");
+        options.sort(() => Math.random() - 0.5);
 
-        button.onclick = () => checkAnswer(option);
+        resultElement.innerHTML = "";
 
-        optionsElement.appendChild(button);
+        options.forEach(option => {
 
-    });
+            const button = document.createElement("button");
+
+            button.innerHTML = option;
+
+            button.classList.add("option-btn");
+
+            button.onclick = () => checkAnswer(option);
+
+            optionsElement.appendChild(button);
+
+        });
+
+    }catch(error){
+
+        questionElement.innerHTML = "Error loading quiz 😢";
+
+        console.log(error);
+
+    }
 
 }
 
-function checkAnswer(selectedOption) {
+function checkAnswer(selectedOption){
+
+    const buttons = document.querySelectorAll(".option-btn");
+
+    buttons.forEach(btn => btn.disabled = true);
 
     if(selectedOption === correctAnswer){
 
@@ -74,7 +97,7 @@ function checkAnswer(selectedOption) {
 
     }else{
 
-        resultElement.innerHTML = "Wrong ❌";
+        resultElement.innerHTML = `Wrong ❌ <br> Correct Answer: ${correctAnswer}`;
 
     }
 
