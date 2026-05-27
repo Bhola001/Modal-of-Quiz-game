@@ -32,7 +32,7 @@ async function loadQuestion() {
 
     try{
 
-        const url = "https://opentdb.com/api.php?amount=1&category=19&type=multiple";
+        const url = "https://opentdb.com/api.php?amount=10&category=19&difficulty=easy&type=multiple";
 
         const response = await fetch(url);
 
