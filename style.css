@@ -1,0 +1,45 @@
+body{
+    font-family: Arial;
+    background: #1e1e2f;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.quiz-container{
+    background: #2d2d44;
+    padding: 30px;
+    border-radius: 10px;
+    width: 400px;
+    text-align: center;
+}
+
+h1{
+    color: cyan;
+}
+
+button{
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.option-btn{
+    background: white;
+    color: black;
+}
+
+.option-btn:hover{
+    background: cyan;
+}
+
+#nextBtn{
+    background: limegreen;
+    color: white;
+}
