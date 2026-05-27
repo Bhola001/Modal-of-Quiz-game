@@ -30,7 +30,7 @@ async function loadQuestion() {
 
     resultElement.innerHTML = "";
 
-    const url = "Your_API";
+    const url = "https://opentdb.com/api.php?amount=1&category=19&type=multiple";
 
     const response = await fetch(url);
 
